@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 var express = require('express');
 var router = express.Router();
 
-
 var Post = mongoose.model('Post');
 var Comment = mongoose.model('Comment');
 
@@ -11,7 +10,6 @@ var Comment = mongoose.model('Comment');
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
-
 
 
 router.param('post', function(req, res, next, id) {
@@ -42,10 +40,10 @@ router.param('comment', function(req, res, next, id) {
 //
 router.get('/posts/:post', function(req, res, next) {
     
-    req.post.populate('commnets', function(err, post) {
+    req.post.populate('comments', function(err, post) {
       if(err) { return next(err); }
       
-      res.json(req.post);
+      res.json(post);
     });
     
 });
@@ -96,7 +94,7 @@ router.post('/posts/:post/comments', function(req, res, next) {
 });
 
 
-router.put('/posts/;post/comments/:comment/upvote', function(req, res, next) {
+router.put('/posts/:post/comments/:comment/upvote', function(req, res, next) {
   req.comment.upvote(function(err, comment){
     if (err) { return next(err); }
     
